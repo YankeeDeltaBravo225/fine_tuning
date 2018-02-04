@@ -9,3 +9,6 @@ Generate classifier
 
 * test.py
 Predict by the generated classifier
+
+* configuration.py
+Configuration of classification targets
