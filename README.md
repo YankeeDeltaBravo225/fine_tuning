@@ -1,4 +1,4 @@
-# This program classifies given charasters in small number of samples and fare accuracy by VGG16 + fine-tuinig
+# This program classifies given charasters with a small number of samples and fare accuracy by VGG16 + fine-tuinig
 
 This is a fork project from https://github.com/kazuki-hayakawa/fine_tuning
 
