@@ -1,4 +1,11 @@
-# fine-tuinigを用いて少ない枚数の画像からそれなりの精度でごちうさのキャラクターを分類するモデルを作成する
+# This program classifies given charasters in small number of samples and fare accuracy by VGG16 + fine-tuinig
 
-train.py で学習器の作成を行う。
-test.py は任意の画像について学習器で実際に分類を行う。
+This is a fork project from https://github.com/kazuki-hayakawa/fine_tuning
+
+# Ｆｉｌｅｓ
+
+* train.py
+Generate classifier
+
+* test.py
+Predict by the generated classifier
