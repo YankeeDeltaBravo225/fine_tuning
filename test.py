@@ -5,19 +5,12 @@ from keras.models import Sequential, Model
 from keras.layers import Input, Activation, Dropout, Flatten, Dense
 from keras.preprocessing import image
 from keras import optimizers
+from configuration import configuration as conf
 
-classes = ['chino', 'cocoa', 'chiya', 'rize', 'syaro']
-nb_classes = len(classes)
-img_width, img_height = 150, 150
-
-result_dir = 'results'
-
-# このディレクトリにテストしたい画像を格納しておく
-test_data_dir = 'dataset/test'
 
 def model_load():
     # VGG16, FC層は不要なので include_top=False
-    input_tensor = Input(shape=(img_width, img_height, 3))
+    input_tensor = Input(shape=(conf.img_width, conf.img_height, 3))
     vgg16 = VGG16(include_top=False, weights='imagenet', input_tensor=input_tensor)
 
     # FC層の作成
@@ -25,13 +18,13 @@ def model_load():
     top_model.add(Flatten(input_shape=vgg16.output_shape[1:]))
     top_model.add(Dense(256, activation='relu'))
     top_model.add(Dropout(0.5))
-    top_model.add(Dense(nb_classes, activation='softmax'))
+    top_model.add(Dense(conf.nb_classes, activation='softmax'))
 
     # VGG16とFC層を結合してモデルを作成
     model = Model(input=vgg16.input, output=top_model(vgg16.output))
 
     # 学習済みの重みをロード
-    model.load_weights(os.path.join(result_dir, 'finetuning.h5'))
+    model.load_weights(os.path.join(conf.result_dir, conf.weight_file))
 
     # 多クラス分類を指定
     model.compile(loss='categorical_crossentropy',
@@ -43,6 +36,9 @@ def model_load():
 
 if __name__ == '__main__':
 
+    # テストしたい画像を格納したディレクトリを引数で指定
+    test_data_dir = word = sys.argv[1]
+
     # モデルのロード
     model = model_load()
 
@@ -51,18 +47,17 @@ if __name__ == '__main__':
 
     for test_image in test_imagelist:
         filename = os.path.join(test_data_dir, test_image)
-        img = image.load_img(filename, target_size=(img_width, img_height))
+        img = image.load_img(filename, target_size=(conf.img_width, conf.img_height))
         x = image.img_to_array(img)
         x = np.expand_dims(x, axis=0)
         # 学習時に正規化してるので、ここでも正規化
         x = x / 255
         pred = model.predict(x)[0]
 
-        # 予測確率が高いトップを出力
-        # 今回は最も似ているクラスのみ出力したいので1にしているが、上位n個を表示させることも可能。
-        top = 1
+        # 予測確率を出力
+        top = conf.nb_classes
         top_indices = pred.argsort()[-top:][::-1]
-        result = [(classes[i], pred[i]) for i in top_indices]
-        print('file name is', test_image)
+        result = [(conf.classes[i], pred[i]) for i in pred.argsort()]
+        print('file name:', test_image)
         print(result)
         print('=======================================')
