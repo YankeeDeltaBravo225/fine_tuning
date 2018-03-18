@@ -6,7 +6,7 @@ from keras.layers import Input, Activation, Dropout, Flatten, Dense
 from keras.preprocessing import image
 from keras import optimizers
 from configuration import configuration as conf
-
+from PIL import Image
 
 def model_load():
     # VGG16, FC層は不要なので include_top=False
@@ -55,9 +55,7 @@ if __name__ == '__main__':
         pred = model.predict(x)[0]
 
         # 予測確率を出力
-        top = conf.nb_classes
-        top_indices = pred.argsort()[-top:][::-1]
-        result = [(conf.classes[i], pred[i]) for i in pred.argsort()]
+        result = [(conf.classes[i], pred[i]) for i in range(0, len(pred) )]
         print('file name:', test_image)
         print(result)
         print('=======================================')
