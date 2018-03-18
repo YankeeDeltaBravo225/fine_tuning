@@ -5,6 +5,7 @@ from keras.models import Sequential, Model
 from keras.layers import Input, Activation, Dropout, Flatten, Dense
 from keras.preprocessing.image import ImageDataGenerator
 from keras import optimizers
+from keras import callbacks
 from configuration import configuration as conf
 import numpy as np
 import time
@@ -59,8 +60,16 @@ def image_generator():
     return (train_generator, validation_generator)
 
 
+def dir_maker(dir):
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+
 if __name__ == '__main__':
     start = time.time()
+
+    # 出力用ディレクトリを作成
+    dir_maker(conf.log_dir)
+    dir_maker(conf.result_dir)
 
     # モデル作成
     vgg_model = vgg_model_maker()
@@ -77,17 +86,21 @@ if __name__ == '__main__':
     # 画像のジェネレータ生成
     train_generator, validation_generator = image_generator()
 
+    # Tensorboard用Callback生成
+#    tb_callback = callbacks.TensorBoard(log_dir=conf.log_dir, histogram_freq=1)
+    tb_callback = callbacks.TensorBoard(log_dir=conf.log_dir)
+
     # Fine-tuning
     history = vgg_model.fit_generator(
         train_generator,
         samples_per_epoch=conf.nb_train_samples,
         nb_epoch=conf.nb_epoch,
         validation_data=validation_generator,
-        nb_val_samples=conf.nb_validation_samples)
+        nb_val_samples=conf.nb_validation_samples,
+        callbacks=[tb_callback]
+        )
 
     # 重みファイルを出力
-    if not os.path.exists(conf.result_dir):
-        os.mkdir(conf.result_dir)
     vgg_model.save_weights(os.path.join(conf.result_dir, conf.weight_file))
 
     process_time = (time.time() - start) / 60

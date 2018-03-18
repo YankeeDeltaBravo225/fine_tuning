@@ -7,8 +7,11 @@ class configuration:
     train_data_dir = 'data/train'
     validation_data_dir = 'data/validation'
 
-    # 出力先ディレクトリ
+    # 重み出力先ディレクトリ
     result_dir = 'results'
+
+    # Tensor boardログ出力先ディレクトリ
+    log_dir = 'logs'
 
     # 重みファイル名
     weight_file = 'finetuning.h5'
