@@ -55,7 +55,7 @@ if __name__ == '__main__':
         pred = model.predict(x)[0]
 
         # 予測確率を出力
-        result = [(conf.classes[i], pred[i]) for i in range(0, len(pred) )]
+        result = ['%s:%.3f%s' % (conf.classes[i], pred[i] * 100, '%') for i in range(0, len(pred) )]
         print('file name:', test_image)
         print(result)
         print('=======================================')
