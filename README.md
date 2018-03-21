@@ -6,14 +6,14 @@ This program classifies given charasters with a small number of samples and fare
 
 # Requirements
 
-* Python
- * 3.6 or later
-* TensorFlow
- * 1.4.0
-* Pillow
- *4.2.0 or later
-* Keras
- *2.1.0 or later
+* Python  
+  * 3.6 or later
+* TensorFlow  
+  * 1.4.0
+* Pillow  
+  * 4.2.0 or later
+* Keras  
+  * 2.1.0 or later
 
 # Ｆｉｌｅｓ
 
