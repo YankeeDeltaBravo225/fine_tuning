@@ -33,11 +33,11 @@ def vgg_model_maker():
 def image_generator():
     """ ディレクトリ内の画像を読み込んでトレーニングデータとバリデーションデータの作成 """
     train_datagen = ImageDataGenerator(
-        rescale=1.0 / 255,
+        rescale=1.0 / conf.color_scale,
         zoom_range=0.2,
         horizontal_flip=True)
 
-    validation_datagen = ImageDataGenerator(rescale=1.0 / 255)
+    validation_datagen = ImageDataGenerator(rescale=1.0 / conf.color_scale)
 
     train_generator = train_datagen.flow_from_directory(
         conf.train_data_dir,

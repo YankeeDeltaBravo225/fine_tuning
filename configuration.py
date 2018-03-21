@@ -32,6 +32,9 @@ class configuration:
     img_width = 150
     img_height = 150
 
+    # カラースケール
+    color_scale = 255
+
 
 if __name__ == '__main__':
     print(configuration.__dict__)

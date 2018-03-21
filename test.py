@@ -7,6 +7,7 @@ from keras.preprocessing import image
 from keras import optimizers
 from configuration import configuration as conf
 from PIL import Image
+import matplotlib.pyplot as plt
 
 def model_load():
     # VGG16, FC層は不要なので include_top=False
@@ -39,23 +40,28 @@ if __name__ == '__main__':
     # テストしたい画像を格納したディレクトリを引数で指定
     test_data_dir = word = sys.argv[1]
 
-    # モデルのロード
-    model = model_load()
-
     # テスト用画像取得
     test_imagelist = os.listdir(test_data_dir)
 
+    # モデルのロード
+    model = model_load()
+
     for test_image in test_imagelist:
         filename = os.path.join(test_data_dir, test_image)
-        img = image.load_img(filename, target_size=(conf.img_width, conf.img_height))
-        x = image.img_to_array(img)
-        x = np.expand_dims(x, axis=0)
+        raw_img = image.load_img(filename, target_size=(conf.img_width, conf.img_height))
+        img_array = image.img_to_array(raw_img)
+        expanded_image = np.expand_dims(img_array, axis=0)
         # 学習時に正規化してるので、ここでも正規化
-        x = x / 255
-        pred = model.predict(x)[0]
+        normalized_image = expanded_image / conf.color_scale
+        pred_result = model.predict(normalized_image)[0]
 
         # 予測確率を出力
-        result = ['%s:%.3f%s' % (conf.classes[i], pred[i] * 100, '%') for i in range(0, len(pred) )]
-        print('file name:', test_image)
-        print(result)
         print('=======================================')
+        print('file name:', test_image)
+        result_msgs = ['%s:%.3f%s' % (conf.classes[i], pred_result[i] * 100, '%') for i in range(0, len(pred_result))]
+        print(result_msgs)
+
+        # 画像を表示
+        plt.title(', '.join(result_msgs))
+        plt.imshow(np.asarray(image.load_img(filename)))
+        plt.show()
