@@ -4,23 +4,21 @@ A fork project from https://github.com/kazuki-hayakawa/fine_tuning
 
 This program classifies given charasters with a small number of samples and fare accuracy by VGG16 + fine-tuinig
 
+# Requirements
+
+* Python3.6 or later
+* TensorFlow 1.4.0
+* Pillow 4.2.0 or later
+* Keras 2.1.0 or later
+
 # Ｆｉｌｅｓ
 
 * train.py　　
   * Generate classifier
-
 * test.py　　
   * Predict by the generated classifier
-
 * config　　
   * Configuration of classification targets
-
-# Requirements
-
-* Python3.6
-* TensorFlow 1.4.0
-* Pillow 4.2.0
-* Keras 2.1.0
 
 # How to use
 
