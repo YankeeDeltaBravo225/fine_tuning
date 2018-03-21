@@ -58,7 +58,7 @@ if __name__ == '__main__':
         # 予測確率を出力
         print('=======================================')
         print('file name:', test_image)
-        result_msgs = ['%s:%.3f%s' % (conf.classes[i], pred_result[i] * 100, '%') for i in range(0, len(pred_result))]
+        result_msgs = ['%s:%.2f%s' % (conf.classes[i], pred_result[i] * 100, '%') for i in range(len(pred_result))]
         print(result_msgs)
 
         # 画像を表示

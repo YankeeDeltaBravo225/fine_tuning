@@ -35,10 +35,11 @@ def image_generator():
     train_datagen = ImageDataGenerator(
         rescale=1.0 / conf.color_scale,
         zoom_range=0.2,
-        rotation_range=30,
+        rotation_range=15,
         width_shift_range=0.2,
         height_shift_range=0.2,
-        shear_range=0.3
+        shear_range=0.3,
+        channel_shift_range=50
     )
 
     validation_datagen = ImageDataGenerator(rescale=1.0 / conf.color_scale)
