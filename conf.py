@@ -4,7 +4,7 @@ class conf:
     nb_classes = len(classes)
 
     # トレーニング用とバリデーション用の画像格納先
-    train_data_dir = 'data/train'
+    train_data_dir = 'data/training'
     validation_data_dir = 'data/validation'
 
     # 重み出力先ディレクトリ
