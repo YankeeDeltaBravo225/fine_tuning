@@ -52,8 +52,6 @@ Images in the specified directry will be shown with the predict result.
     classes = ['kyoko', 'noriko']
     ```
 
-classes = ['kyoko', 'noriko']
-
 # Improving accuracy
 
 Following would take effect.
