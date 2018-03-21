@@ -35,7 +35,11 @@ def image_generator():
     train_datagen = ImageDataGenerator(
         rescale=1.0 / conf.color_scale,
         zoom_range=0.2,
-        horizontal_flip=True)
+        rotation_range=30,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.3
+    )
 
     validation_datagen = ImageDataGenerator(rescale=1.0 / conf.color_scale)
 
@@ -87,7 +91,6 @@ if __name__ == '__main__':
     train_generator, validation_generator = image_generator()
 
     # Tensorboard用Callback生成
-#    tb_callback = callbacks.TensorBoard(log_dir=conf.log_dir, histogram_freq=1)
     tb_callback = callbacks.TensorBoard(log_dir=conf.log_dir)
 
     # Fine-tuning

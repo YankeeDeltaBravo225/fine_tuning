@@ -17,16 +17,16 @@ class conf:
     weight_file = 'finetuning.h5'
 
     # トレーニング用サンプル数
-    nb_train_samples = 20
+    nb_train_samples = 200
 
     # バリデーション用サンプル数
-    nb_validation_samples = 10
+    nb_validation_samples = 100
 
     # バッチサイズ
     batch_size = 20
 
     # エポック数
-    nb_epoch = 100
+    nb_epoch = 20
 
     # 画像の処理サイズ
     img_width = 150
