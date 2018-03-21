@@ -5,7 +5,7 @@ from keras.models import Sequential, Model
 from keras.layers import Input, Activation, Dropout, Flatten, Dense
 from keras.preprocessing import image
 from keras import optimizers
-from configuration import configuration as conf
+from conf import conf
 from PIL import Image
 import matplotlib.pyplot as plt
 

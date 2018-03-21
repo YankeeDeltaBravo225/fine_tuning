@@ -6,7 +6,7 @@ from keras.layers import Input, Activation, Dropout, Flatten, Dense
 from keras.preprocessing.image import ImageDataGenerator
 from keras import optimizers
 from keras import callbacks
-from configuration import configuration as conf
+from conf import conf
 import numpy as np
 import time
 

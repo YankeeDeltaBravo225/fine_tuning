@@ -1,4 +1,4 @@
-class configuration:
+class conf:
     # 分類するクラス
     classes = ['kyoko', 'noriko']
     nb_classes = len(classes)
