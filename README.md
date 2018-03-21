@@ -6,10 +6,14 @@ This program classifies given charasters with a small number of samples and fare
 
 # Requirements
 
-* Python3.6 or later
-* TensorFlow 1.4.0
-* Pillow 4.2.0 or later
-* Keras 2.1.0 or later
+* Python
+ * 3.6 or later
+* TensorFlow
+ * 1.4.0
+* Pillow
+ *4.2.0 or later
+* Keras
+ *2.1.0 or later
 
 # Ｆｉｌｅｓ
 
@@ -56,7 +60,7 @@ Images in the specified directry will be shown with the predict result.
 
 Following would take effect.
 
-* Adjust data extention parameter of Keras.ImageDataGenerator　　
+* Adjust data extention parameter of ImageDataGenerator　　
   * Refer to https://keras.io/ja/preprocessing/image/ for detail
 * Make epoch size in conf.py a greater value
   * Training time will be longer as well
