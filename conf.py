@@ -26,7 +26,7 @@ class conf:
     batch_size = 32
 
     # エポック数
-    nb_epoch = 10
+    nb_epoch = 30
 
     # 画像の処理サイズ
     img_width = 150

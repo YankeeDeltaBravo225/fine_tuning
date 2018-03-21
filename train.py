@@ -34,12 +34,12 @@ def image_generator():
     """ ディレクトリ内の画像を読み込んでトレーニングデータとバリデーションデータの作成 """
     train_datagen = ImageDataGenerator(
         rescale=1.0 / conf.color_scale,
-        zoom_range=0.2,
-        rotation_range=15,
+        zoom_range=0.1,
+        rotation_range=10,
         width_shift_range=0.2,
         height_shift_range=0.2,
-        shear_range=0.3,
-        channel_shift_range=50
+        shear_range=0.1,
+        channel_shift_range=40
     )
 
     validation_datagen = ImageDataGenerator(rescale=1.0 / conf.color_scale)
