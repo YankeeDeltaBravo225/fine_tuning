@@ -1,6 +1,6 @@
 import os, sys
 import numpy as np
-from keras.applications.vgg16 import VGG16
+from keras.applications.vgg16 import VGG16, decode_predictions
 from keras.models import Sequential, Model
 from keras.layers import Input, Activation, Dropout, Flatten, Dense
 from keras.preprocessing import image
@@ -9,7 +9,7 @@ from conf import conf
 from PIL import Image
 import matplotlib.pyplot as plt
 
-def model_load():
+def load_model():
     # VGG16, FC層は不要なので include_top=False
     input_tensor = Input(shape=(conf.img_width, conf.img_height, 3))
     vgg16 = VGG16(include_top=False, weights='imagenet', input_tensor=input_tensor)
@@ -35,33 +35,43 @@ def model_load():
     return model
 
 
+def load_normalized_image(file_path):
+    raw = image.load_img(file_path, target_size=(conf.img_width, conf.img_height))
+    array_img = image.img_to_array(raw)
+    expanded = np.expand_dims(array_img, axis=0)
+    # 学習時に正規化してるので、ここでも正規化
+    normalized = expanded / conf.color_scale
+
+    return normalized
+
+
 if __name__ == '__main__':
 
     # テストしたい画像を格納したディレクトリを引数で指定
-    test_data_dir = word = sys.argv[1]
+    image_dir = word = sys.argv[1]
 
     # テスト用画像取得
-    test_imagelist = os.listdir(test_data_dir)
+    image_files = os.listdir(image_dir)
 
     # モデルのロード
-    model = model_load()
+    model = load_model()
 
-    for test_image in test_imagelist:
-        filename = os.path.join(test_data_dir, test_image)
-        raw_img = image.load_img(filename, target_size=(conf.img_width, conf.img_height))
-        img_array = image.img_to_array(raw_img)
-        expanded_image = np.expand_dims(img_array, axis=0)
-        # 学習時に正規化してるので、ここでも正規化
-        normalized_image = expanded_image / conf.color_scale
+    for image_file in image_files:
+
+        # 画像を読み込んで正規化
+        image_path = os.path.join(image_dir, image_file)
+        normalized_image = load_normalized_image(image_path)
+
+        # 予測を実施
         pred_result = model.predict(normalized_image)[0]
 
         # 予測確率を出力
         print('=======================================')
-        print('file name:', test_image)
+        print('file name:', image_file)
         result_msgs = ['%s:%.2f%s' % (conf.classes[i], pred_result[i] * 100, '%') for i in range(len(pred_result))]
         print(result_msgs)
 
         # 画像を表示
         plt.title(', '.join(result_msgs))
-        plt.imshow(np.asarray(image.load_img(filename)))
+        plt.imshow(np.asarray(image.load_img(image_path)))
         plt.show()
