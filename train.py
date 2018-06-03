@@ -10,7 +10,8 @@ from conf import conf
 import numpy as np
 import time
 
-def vgg_model_maker():
+
+def create_vgg_model():
     """ VGG16のモデルをFC層以外使用。FC層のみ作成して結合して用意する """
 
     # VGG16のロード。FC層は不要なので include_top=False
@@ -30,7 +31,7 @@ def vgg_model_maker():
     return model
 
 
-def image_generator():
+def create_image_generator():
     """ ディレクトリ内の画像を読み込んでトレーニングデータとバリデーションデータの作成 """
     train_datagen = ImageDataGenerator(
         rescale=1.0 / conf.color_scale,
@@ -65,19 +66,21 @@ def image_generator():
     return (train_generator, validation_generator)
 
 
-def dir_maker(dir):
+def create_dir(dir):
     if not os.path.exists(dir):
         os.mkdir(dir)
 
+
 if __name__ == '__main__':
+    # 開始時刻を取得
     start = time.time()
 
     # 出力用ディレクトリを作成
-    dir_maker(conf.log_dir)
-    dir_maker(conf.result_dir)
+    create_dir(conf.log_dir)
+    create_dir(conf.result_dir)
 
     # モデル作成
-    vgg_model = vgg_model_maker()
+    vgg_model = create_vgg_model()
 
     # 最後のconv層の直前までの層をfreeze
     for layer in vgg_model.layers[:15]:
@@ -89,7 +92,7 @@ if __name__ == '__main__':
               metrics=['accuracy'])
 
     # 画像のジェネレータ生成
-    train_generator, validation_generator = image_generator()
+    train_generator, validation_generator = create_image_generator()
 
     # Tensorboard用Callback生成
     tb_callback = callbacks.TensorBoard(log_dir=conf.log_dir)
@@ -107,5 +110,6 @@ if __name__ == '__main__':
     # 重みファイルを出力
     vgg_model.save_weights(os.path.join(conf.result_dir, conf.weight_file))
 
+    # 経過時間を表示
     process_time = (time.time() - start) / 60
     print(u'学習終了。かかった時間は', process_time, u'分です。')
